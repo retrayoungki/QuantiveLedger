@@ -543,9 +543,9 @@ export default function ChartOfAccounts() {
             <div className="flex items-center gap-3">
               {importReport.length > 0 && (
                 <button 
-                  onClick={() => setShowImportModal(false) /* Just reuse a toggle if needed or just show the report section */}
                   className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all text-sm font-bold shadow-lg shadow-slate-900/10"
                   onClick={() => {
+                    setShowImportModal(false);
                     const el = document.getElementById('import-monitoring');
                     el?.scrollIntoView({ behavior: 'smooth' });
                   }}

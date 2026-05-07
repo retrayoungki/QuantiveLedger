@@ -145,7 +145,7 @@ export default function GeneralLedgerReport() {
                   <label className="text-[10px] font-black text-slate-400 uppercase">Dari</label>
                   <DatePicker 
                     selected={startDate} 
-                    onChange={(date) => setStartDate(date || new Date())} 
+                    onChange={(date: Date | null) => setStartDate(date || new Date())} 
                     dateFormat="dd/MM/yyyy"
                     className="bg-transparent outline-none text-sm font-bold text-slate-700 w-24"
                   />
@@ -155,7 +155,7 @@ export default function GeneralLedgerReport() {
                   <label className="text-[10px] font-black text-slate-400 uppercase">Sampai</label>
                   <DatePicker 
                     selected={endDate} 
-                    onChange={(date) => setEndDate(date || new Date())} 
+                    onChange={(date: Date | null) => setEndDate(date || new Date())} 
                     dateFormat="dd/MM/yyyy"
                     className="bg-transparent outline-none text-sm font-bold text-slate-700 w-24"
                   />

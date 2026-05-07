@@ -95,7 +95,7 @@ export default function TrialBalanceReport() {
                <label className="text-[10px] font-black text-slate-400 uppercase ml-1 mb-1">Per Tanggal</label>
                <DatePicker 
                  selected={endDate} 
-                 onChange={(date) => setEndDate(date || new Date())} 
+                 onChange={(date: Date | null) => setEndDate(date || new Date())} 
                  dateFormat="dd/MM/yyyy"
                  className="px-4 py-2 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-blue-500/20 font-bold text-slate-700 w-32"
                />

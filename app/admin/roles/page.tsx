@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { UserRole, ROLES } from "@/lib/roles";
 import { Permission } from "@/lib/permissions";
 import { useAuth } from "@/context/AuthContext";
