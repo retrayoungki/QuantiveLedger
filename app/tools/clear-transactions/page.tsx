@@ -38,7 +38,7 @@ export default function ClearTransactions() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-transparent">
       <Navbar />
       <main className="p-12 max-w-4xl mx-auto space-y-8">
         <div>
@@ -57,7 +57,7 @@ export default function ClearTransactions() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1: All */}
-          <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center text-center space-y-4 hover:shadow-xl hover:border-red-200 transition-all group">
+          <div className="glass-panel p-8 rounded-2xl shadow-sm border border-slate-200/50 flex flex-col items-center text-center space-y-4 hover:shadow-xl hover:border-red-200 transition-all group">
             <div className="w-16 h-16 bg-red-50 text-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <span className="material-symbols-outlined text-3xl">delete_sweep</span>
             </div>
@@ -75,7 +75,7 @@ export default function ClearTransactions() {
           </div>
 
           {/* Card 2: Vouchers */}
-          <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition-all">
+          <div className="glass-panel p-8 rounded-2xl shadow-sm border border-slate-200/50 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition-all">
             <div className="w-16 h-16 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center">
               <span className="material-symbols-outlined text-3xl">savings</span>
             </div>
@@ -93,7 +93,7 @@ export default function ClearTransactions() {
           </div>
 
           {/* Card 3: Journals */}
-          <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition-all">
+          <div className="glass-panel p-8 rounded-2xl shadow-sm border border-slate-200/50 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition-all">
             <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
               <span className="material-symbols-outlined text-3xl">edit_document</span>
             </div>

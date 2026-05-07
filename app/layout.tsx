@@ -41,13 +41,15 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-surface text-on-surface">
+      <body className="min-h-full flex flex-col relative overflow-x-hidden">
         <AuthProvider>
-          <AuthGuard>
-            <CompanyProvider>
-              {children}
-            </CompanyProvider>
-          </AuthGuard>
+          <CompanyProvider>
+            <AuthGuard>
+              <div className="relative z-0 flex-1 flex flex-col">
+                {children}
+              </div>
+            </AuthGuard>
+          </CompanyProvider>
         </AuthProvider>
       </body>
     </html>

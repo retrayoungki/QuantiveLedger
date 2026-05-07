@@ -73,13 +73,23 @@ export default function Dashboard() {
             Fiscal Year 2024 • Q3 Performance
           </p>
         </div>
-        <div className="flex gap-3">
-          <div className="bg-slate-50 px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-slate-100 transition-colors border border-slate-200">
+        <div className="flex gap-3 items-center">
+          {/* SaaS Command Center Button */}
+          {role === 'Super Admin' && (
+            <Link 
+              href="/saas-admin"
+              className="flex items-center gap-2 px-4 py-2.5 bg-teal-600/10 border border-teal-600/30 text-teal-700 rounded-lg hover:bg-teal-600/20 transition-all font-bold text-sm"
+            >
+              <span className="material-symbols-outlined text-lg">rocket_launch</span>
+              SaaS Command Center
+            </Link>
+          )}
+          <div className="glass-panel px-4 py-2.5 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-white/50 transition-colors border border-white/50 shadow-sm">
             <span className="material-symbols-outlined text-sm text-slate-500">calendar_today</span>
             <span className="text-sm font-semibold text-slate-700">Last 30 Days</span>
             <span className="material-symbols-outlined text-sm text-slate-400">expand_more</span>
           </div>
-          <button className="bg-slate-50 p-2 rounded-lg hover:bg-slate-100 transition-colors text-slate-600 border border-slate-200">
+          <button className="glass-panel p-2.5 rounded-lg hover:bg-white/50 transition-colors text-slate-600 border border-white/50 shadow-sm">
             <span className="material-symbols-outlined">file_download</span>
           </button>
         </div>
@@ -88,7 +98,7 @@ export default function Dashboard() {
       {/* Metric Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Revenue Card */}
-        <div className="bg-white p-8 rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.04)] border border-slate-200 flex flex-col justify-between min-h-[180px]">
+        <div className="glass-panel p-8 rounded-xl shadow-sm border border-white/40 flex flex-col justify-between min-h-[180px]">
           <div className="flex justify-between items-start">
             <div className="p-3 bg-emerald-50 rounded-xl">
               <span className="material-symbols-outlined text-emerald-600" style={{ fontVariationSettings: "'FILL' 1" }}>trending_up</span>
@@ -104,7 +114,7 @@ export default function Dashboard() {
         </div>
 
         {/* Expenses Card */}
-        <div className="bg-white p-8 rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.04)] border border-slate-200 flex flex-col justify-between min-h-[180px]">
+        <div className="glass-panel p-8 rounded-xl shadow-sm border border-white/40 flex flex-col justify-between min-h-[180px]">
           <div className="flex justify-between items-start">
             <div className="p-3 bg-rose-50 rounded-xl">
               <span className="material-symbols-outlined text-rose-600" style={{ fontVariationSettings: "'FILL' 1" }}>receipt_long</span>
@@ -119,8 +129,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Net Income Card */}
-        <div className="signature-gradient p-8 rounded-xl shadow-[0_24px_48px_-12px_rgba(0,80,212,0.15)] flex flex-col justify-between min-h-[180px] text-white border border-blue-600/20">
+        {/* Net Income Card - Solid Teal to match logo */}
+        <div className="bg-[#008b8b] p-8 rounded-xl shadow-lg shadow-teal-900/10 flex flex-col justify-between min-h-[180px] text-white border border-teal-500/20">
           <div className="flex justify-between items-start">
             <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
               <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>payments</span>
@@ -139,7 +149,7 @@ export default function Dashboard() {
       {/* Secondary Section */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         {/* Financial Pulse Chart */}
-        <div className="lg:col-span-3 bg-white rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.04)] border border-slate-200 overflow-hidden">
+        <div className="lg:col-span-3 glass-panel rounded-xl shadow-sm border border-white/40 overflow-hidden">
           <div className="p-8 border-b border-slate-100 flex justify-between items-center">
             <div>
               <h3 className="text-xl font-bold font-headline text-slate-900">Financial Pulse</h3>
@@ -152,7 +162,7 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Transactions */}
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.04)] border border-slate-200 overflow-hidden flex flex-col">
+        <div className="lg:col-span-2 glass-panel rounded-xl shadow-sm border border-white/40 overflow-hidden flex flex-col">
           <div className="p-8 border-b border-slate-100 flex justify-between items-center">
             <h3 className="text-xl font-bold font-headline text-slate-900">Recent Transactions</h3>
             <a className="text-blue-600 text-xs font-bold hover:underline" href="#">View All</a>
@@ -288,13 +298,8 @@ export default function Dashboard() {
   );
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-surface">
-        {['Super Admin', 'Direksi'].includes(role) && renderSuperAdminOrDireksi()}
-        {role === 'Manager' && renderManager()}
-        {role === 'Staff' && renderStaff()}
-      </main>
-    </>
+    <main className="min-h-screen bg-transparent">
+      {renderSuperAdminOrDireksi()}
+    </main>
   );
 }

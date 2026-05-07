@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 
 import { getCompanyInfo, updateCompanyInfo } from "@/lib/dataService";
+import { useCompany } from "@/context/CompanyContext";
 
 export default function CompanySetup() {
-
+  const { activeCompany } = useCompany();
   const [loading, setLoading] = useState(true);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
 
@@ -43,18 +44,23 @@ export default function CompanySetup() {
 
   useEffect(() => {
     async function loadData() {
-      const data = await getCompanyInfo() as any;
+      setLoading(true);
+      const data = await getCompanyInfo(activeCompany?.id) as any;
       if (data) {
-        setFormData(data);
+        setFormData(prev => ({
+          ...prev,
+          ...data,
+          profile: { ...prev.profile, ...(data.profile || data) }
+        }));
       }
       setLoading(false);
     }
     loadData();
-  }, []);
+  }, [activeCompany?.id]);
 
   const handleSave = async () => {
     setSaveStatus("Saving to Cloud...");
-    const res = await updateCompanyInfo(formData) as any;
+    const res = await updateCompanyInfo(formData, activeCompany?.id) as any;
     if (res.success) {
       setSaveStatus("Synced with Cloud ✅");
       setTimeout(() => setSaveStatus(null), 3000);
@@ -67,7 +73,7 @@ export default function CompanySetup() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-transparent">
 
         <div className="flex items-center justify-center h-[calc(100vh-64px)]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -77,7 +83,7 @@ export default function CompanySetup() {
   }
 
   return (
-    <div className="min-h-screen font-manrope">
+    <div className="min-h-screen bg-transparent font-manrope">
 
 
       <main className="p-8 max-w-5xl mx-auto space-y-8">
@@ -120,7 +126,7 @@ export default function CompanySetup() {
           </div>
         )}
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-8">
+        <div className="glass-panel p-6 rounded-2xl shadow-sm border border-slate-200/50 space-y-8">
 
           {/* Form Content */}
           <div className="grid grid-cols-1 gap-8 pt-4">

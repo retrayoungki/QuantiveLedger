@@ -66,7 +66,26 @@
 @layer base {
   body {
     font-family: var(--font-body);
+    background-color: #f8fafc; /* slate-50 base color */
+    position: relative;
+    min-height: 100vh;
   }
+  
+  /* Mesh Background Layer with 60% opacity */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("/main-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    z-index: -1;
+    pointer-events: none;
+  }
+
   h1, h2, h3, .brand-font {
     font-family: var(--font-headline);
   }
@@ -83,10 +102,53 @@
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
   }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
 }
 
 @media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
   * {
     font-family: Calibri, 'Segoe UI', Candara, Segoe, Optima, Arial, sans-serif !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print { display: none !important; }
+  body { background: white !important; padding: 0 !important; margin: 0 !important; }
+  body::before { display: none !important; }
+  main { padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; }
+  .glass-panel, .bg-white\/95 { 
+    background: white !important; 
+    backdrop-filter: none !important; 
+    box-shadow: none !important; 
+    border: none !important; 
+    border-radius: 0 !important; 
+    padding: 0 !important;
+  }
+  [class*="max-w-"] { max-width: 100% !important; width: 100% !important; margin: 0 !important; }
+  
+  table { 
+    width: 100% !important; 
+    table-layout: auto !important;
+    font-size: 10pt !important;
+  }
+  
+  th, td {
+    padding: 4pt !important;
   }
 }

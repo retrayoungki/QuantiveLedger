@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Company } from "@/lib/roles";
 import { useAuth } from "./AuthContext";
-import { getCompanyInfo } from "@/lib/dataService";
+import { getCompanyInfo, getCompanyById } from "@/lib/dataService";
 
 interface CompanyContextType {
   activeCompany: Company | null;
@@ -21,43 +21,89 @@ const CompanyContext = createContext<CompanyContextType>({
 
 export const CompanyProvider = ({ children }: { children: React.ReactNode }) => {
   const { userData } = useAuth();
-  const [activeCompany, setActiveCompany] = useState<Company | null>(null);
-  const [availableCompanies, setAvailableCompanies] = useState<Company[]>([]);
-  const [loadingCompanies, setLoadingCompanies] = useState(true);
+  const [activeCompany, setActiveCompany] = useState<Company | null>({
+    id: "1",
+    name: "Quantive Ledger",
+    code: "QL"
+  });
+  const [availableCompanies, setAvailableCompanies] = useState<Company[]>([{
+    id: "1",
+    name: "Quantive Ledger",
+    code: "QL"
+  }]);
+  const [loadingCompanies, setLoadingCompanies] = useState(false);
 
   useEffect(() => {
-    async function fetchCompany() {
+    async function fetchCompanies() {
       try {
-        const info = await getCompanyInfo();
-        if (info && info.profile && info.profile.name) {
-          const mainCompany: Company = {
-            id: "1",
-            name: info.profile.name,
-            code: "CMP-01"
-          };
-          setAvailableCompanies([mainCompany]);
-          setActiveCompany(mainCompany);
+        setLoadingCompanies(true);
+        
+        // 1. Get assigned company IDs from user data
+        const assignedIds = userData?.assignedCompanies || [];
+        
+        if (assignedIds.length > 0) {
+          // 2. Fetch details for each assigned company
+          const companiesPromises = assignedIds.map(id => getCompanyById(id));
+          const results = await Promise.all(companiesPromises);
+          
+          const validCompanies: Company[] = results
+            .filter(r => r !== null)
+            .map((r, index) => ({
+              id: assignedIds[index],
+              name: r.name || r.profile?.name || "Unnamed Company",
+              code: r.code || "CMP"
+            }));
+            
+          if (validCompanies.length > 0) {
+            setAvailableCompanies(validCompanies);
+            setActiveCompany(validCompanies[0]);
+          } else {
+            // Fallback to global setting if none found in companies collection
+            const globalInfo = await getCompanyInfo();
+            const fallback: Company = {
+              id: "global",
+              name: globalInfo?.profile?.name || "PT. Quantum Prima Konsultama",
+              code: "QL"
+            };
+            setAvailableCompanies([fallback]);
+            setActiveCompany(fallback);
+          }
         } else {
-          const defaultCompany: Company = {
-            id: "1",
-            name: "[NAMA PERUSAHAAN]",
-            code: "CMP-01"
+          // No companies assigned to this specific user - fallback to global or default
+          const globalInfo = await getCompanyInfo();
+          const fallback: Company = {
+            id: "global",
+            name: globalInfo?.profile?.name || "PT. Quantum Prima Konsultama",
+            code: "QL"
           };
-          setAvailableCompanies([defaultCompany]);
-          setActiveCompany(defaultCompany);
+          setAvailableCompanies([fallback]);
+          setActiveCompany(fallback);
         }
       } catch (error) {
-        console.error("Failed to load company:", error);
+        console.error("Failed to load companies:", error);
       } finally {
         setLoadingCompanies(false);
       }
     }
     
     if (userData) {
-      fetchCompany();
+      // Safety timeout to prevent stuck "LOADING" state
+      const timeoutId = setTimeout(() => {
+        setLoadingCompanies(false);
+      }, 5000);
+
+      fetchCompanies().then(() => clearTimeout(timeoutId));
     } else {
-      setAvailableCompanies([]);
-      setActiveCompany(null);
+      setAvailableCompanies([{
+        id: "default",
+        name: "Quantive Ledger",
+        code: "QL"
+      }]);
+      setActiveCompany({
+        id: "default",
+        name: "Quantive Ledger",
+        code: "QL"
+      });
       setLoadingCompanies(false);
     }
   }, [userData]);

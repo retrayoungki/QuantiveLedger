@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { getCompanyInfo, getCOAData } from "@/lib/dataService";
+import { useCompany } from "@/context/CompanyContext";
 import { getAllTransactions, formatCurrency } from "@/lib/reportUtils";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function CashFlowReport() {
+  const { activeCompany } = useCompany();
   const [companyInfo, setCompanyInfo] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [coa, setCoa] = useState<any[]>([]);
@@ -20,12 +22,12 @@ export default function CashFlowReport() {
     async function loadData() {
       try {
         setLoading(true);
-        const info = await getCompanyInfo();
+        const info = await getCompanyInfo(activeCompany?.id);
         if (info) setCompanyInfo(info);
 
         const [allTrans, coaData] = await Promise.all([
-          getAllTransactions(),
-          getCOAData()
+          getAllTransactions(activeCompany?.id),
+          getCOAData(activeCompany?.id)
         ]);
         setTransactions(allTrans);
         setCoa(coaData?.accounts || []);
@@ -89,9 +91,9 @@ export default function CashFlowReport() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8 text-left">
+    <div className="min-h-screen bg-transparent p-8 text-left">
       <div className="max-w-5xl mx-auto space-y-6">
-        <div className="flex justify-between items-center no-print bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="flex justify-between items-center no-print glass-panel p-4 rounded-2xl border border-slate-200/50 shadow-sm">
           <button onClick={() => window.history.back()} className="text-slate-500 font-bold flex items-center gap-2 hover:bg-slate-100 px-4 py-2 rounded-xl transition-all">
             <span className="material-symbols-outlined">arrow_back</span> Kembali
           </button>
@@ -146,7 +148,7 @@ export default function CashFlowReport() {
              </div>
           </div>
         ) : (
-          <div className="bg-white p-16 shadow-xl border border-slate-200 rounded-sm animate-in fade-in slide-in-from-bottom-4 duration-500 text-left">
+          <div className="bg-white/95 backdrop-blur-sm p-16 shadow-xl border border-slate-200 rounded-3xl animate-in fade-in slide-in-from-bottom-4 duration-500 text-left">
              <div className="text-center space-y-1 mb-12">
                 <h1 className="text-2xl font-black uppercase text-slate-900 tracking-tighter">{companyInfo?.profile?.name || "PT QUANTUM GL"}</h1>
                 <p className="text-sm font-bold text-slate-500 uppercase">{companyInfo?.profile?.address || "Jl. Raya Accounting No. 1"}</p>
@@ -176,9 +178,6 @@ export default function CashFlowReport() {
              </div>
           </div>
         )}
-        <style jsx global>{`
-          @media print { .no-print { display: none !important; } }
-        `}</style>
       </div>
     </div>
   );

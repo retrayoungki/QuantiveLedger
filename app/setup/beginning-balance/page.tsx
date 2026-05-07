@@ -212,7 +212,7 @@ export default function BeginningBalance() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-transparent">
 
 
       <main className="p-8 max-w-7xl mx-auto space-y-6 pb-32">
@@ -267,7 +267,7 @@ export default function BeginningBalance() {
           </div>
         )}
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="glass-panel rounded-2xl shadow-sm border border-slate-200/50 overflow-hidden flex flex-col">
           <div className="overflow-y-auto max-h-[60vh]">
             <table className="w-full text-left border-collapse">
               <thead className="sticky top-0 bg-slate-50 z-10 shadow-sm border-b border-slate-200">
@@ -326,7 +326,7 @@ export default function BeginningBalance() {
       </main>
 
       {/* Floating Footer for Totals */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] p-4 px-8 z-50">
+      <div className="fixed bottom-0 left-0 right-0 glass-panel border-t border-slate-200 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] p-4 px-8 z-50 rounded-none">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-8">
             <div>

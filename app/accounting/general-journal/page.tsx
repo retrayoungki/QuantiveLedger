@@ -498,7 +498,7 @@ export default function GeneralJournal() {
   const canSaveModal = isBalancedModal && isDescriptionFilledModal && newJournal.no.trim().length > 0;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-transparent">
 
 
       <main className="p-8 max-w-7xl mx-auto space-y-6 pb-24">
@@ -550,7 +550,7 @@ export default function GeneralJournal() {
           </div>
         )}
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+        <div className="glass-panel p-6 rounded-2xl shadow-sm border border-slate-200/50 space-y-6">
           {/* Toolbar */}
           <div className="flex flex-wrap gap-6 items-end justify-between bg-slate-50 p-4 rounded-xl border border-slate-200">
             <div className="flex items-center gap-4">

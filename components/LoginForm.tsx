@@ -26,14 +26,14 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-100 font-inter">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-300 via-slate-400 to-slate-500 font-inter">
       <div className="max-w-md w-full px-8 py-12 bg-white rounded-2xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.05)] border border-slate-200">
         {/* Branding */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center mb-6">
             <img 
-              src="/logo.png" 
-              alt="Q-GL Accounting Logo" 
+              src="/quantive-ledger.png" 
+              alt="Quantive Ledger Logo" 
               className="h-16 w-auto"
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = 'none';
@@ -42,13 +42,13 @@ export default function LoginForm() {
               }}
             />
             <div id="login-logo-fallback" className="hidden flex-col items-center gap-3">
-              <div className="w-16 h-16 signature-gradient rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+              <div className="w-16 h-16 bg-[#008b8b] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-teal-500/20">
                 <span className="material-symbols-outlined text-3xl font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>
                   account_balance
                 </span>
               </div>
               <h1 className="text-2xl font-extrabold text-slate-900 font-manrope tracking-tight mt-2">
-                Q-GL Accounting
+                Quantive Ledger
               </h1>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function LoginForm() {
         {/* Footer */}
         <div className="mt-10 text-center border-t border-slate-100 pt-8">
           <p className="text-xs text-slate-400 font-medium tracking-wide">
-            &copy; 2024 Q-GL ACCOUNTING PORTAL • SECURE ACCESS
+            &copy; 2024 QUANTIVE LEDGER PORTAL • SECURE ACCESS
           </p>
         </div>
       </div>

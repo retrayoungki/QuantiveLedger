@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
+import { useCompany } from "@/context/CompanyContext";
 import { getCompanyInfo, getCOAData } from "@/lib/dataService";
 import { getAccountBalances, formatCurrency } from "@/lib/reportUtils";
 import { t } from "@/lib/translations";
@@ -11,6 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function TrialBalanceReport() {
+  const { activeCompany } = useCompany();
   const [companyInfo, setCompanyInfo] = useState<any>(null);
   const [balances, setBalances] = useState<any>({});
   const [coa, setCoa] = useState<any[]>([]);
@@ -22,13 +24,13 @@ export default function TrialBalanceReport() {
     async function loadData() {
       try {
         setLoading(true);
-        const info = await getCompanyInfo();
+        const info = await getCompanyInfo(activeCompany?.id);
         if (info) setCompanyInfo(info);
 
         const endStr = format(endDate, 'yyyy-MM-dd');
         const [balanceData, coaData] = await Promise.all([
-          getAccountBalances(endStr),
-          getCOAData()
+          getAccountBalances(endStr, activeCompany?.id),
+          getCOAData(activeCompany?.id)
         ]);
         setBalances(balanceData);
         setCoa(coaData?.accounts?.filter((a: any) => a.level === "Rincian Akun") || []);
@@ -73,9 +75,9 @@ export default function TrialBalanceReport() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8 text-left">
+    <div className="min-h-screen bg-transparent p-8 text-left">
       <div className="max-w-5xl mx-auto space-y-6">
-        <div className="flex justify-between items-center no-print bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="flex justify-between items-center no-print glass-panel p-4 rounded-2xl border border-slate-200/50 shadow-sm">
           <button onClick={() => window.history.back()} className="text-slate-500 font-bold flex items-center gap-2 hover:bg-slate-100 px-4 py-2 rounded-xl transition-all">
             <span className="material-symbols-outlined">arrow_back</span> Kembali
           </button>
@@ -118,7 +120,7 @@ export default function TrialBalanceReport() {
              </div>
           </div>
         ) : (
-          <div className="bg-white p-12 shadow-xl border border-slate-200 animate-in fade-in slide-in-from-bottom-4 duration-500 text-left">
+          <div className="bg-white/95 backdrop-blur-sm p-12 shadow-xl border border-slate-200 animate-in fade-in slide-in-from-bottom-4 duration-500 text-left rounded-3xl">
             <div className="text-center space-y-1 mb-8">
                <h1 className="text-xl font-black uppercase text-slate-900">{companyInfo?.profile?.name || "PT QUANTUM GL"}</h1>
                <p className="text-sm font-bold text-slate-500 uppercase">{companyInfo?.profile?.address || "Jl. Raya Accounting No. 1"}</p>
@@ -164,9 +166,6 @@ export default function TrialBalanceReport() {
             </table>
           </div>
         )}
-        <style jsx global>{`
-          @media print { .no-print { display: none !important; } }
-        `}</style>
       </div>
     </div>
   );

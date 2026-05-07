@@ -524,7 +524,7 @@ export default function CashBankVoucher() {
   const canSaveForm = totalAmountForm > 0 && isDescriptionFilledForm && newVoucher.no.trim().length > 0 && newVoucher.bukuKas;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-transparent">
       <main className="p-8 max-w-7xl mx-auto space-y-6 pb-24">
         {!isFormOpen ? (
           <>
@@ -567,7 +567,7 @@ export default function CashBankVoucher() {
               </div>
             )}
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+            <div className="glass-panel p-6 rounded-2xl shadow-sm border border-slate-200/50 space-y-6">
               <div className="flex flex-wrap gap-6 items-end justify-between bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <div className="flex flex-wrap items-center gap-5">
                   <div>

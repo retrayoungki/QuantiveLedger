@@ -51,8 +51,11 @@ export function parseRobustAmount(amount: any): number {
   return parseFloat(cleaned) || 0;
 }
 
-export async function getAllTransactions(): Promise<Transaction[]> {
-  const [journals, vouchers] = await Promise.all([getJournals(), getVouchers()]);
+export async function getAllTransactions(tenantId?: string): Promise<Transaction[]> {
+  const [journals, vouchers] = await Promise.all([
+    getJournals(tenantId), 
+    getVouchers(tenantId)
+  ]);
   
   const transactions: Transaction[] = [];
 
@@ -122,8 +125,8 @@ export async function getAllTransactions(): Promise<Transaction[]> {
   return transactions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
 
-export async function getAccountBalances(endDate: string) {
-  const transactions = await getAllTransactions();
+export async function getAccountBalances(endDate: string, tenantId?: string) {
+  const transactions = await getAllTransactions(tenantId);
   const targetDate = endDate ? parseRobustDate(endDate) : new Date('2099-12-31');
   
   const balances: Record<string, { debit: number; credit: number; balance: number }> = {};
@@ -140,7 +143,7 @@ export async function getAccountBalances(endDate: string) {
   });
 
   // Calculate final balance based on account type (Asset/Expense: D-C, Liab/Equity/Income: C-D)
-  const coa = await getCOAData();
+  const coa = await getCOAData(tenantId);
   const accounts = coa?.accounts || [];
 
   accounts.forEach((acc: any) => {
@@ -158,8 +161,9 @@ export async function getAccountBalances(endDate: string) {
 }
 
 export function formatCurrency(num: number) {
-  return new Intl.NumberFormat("id-ID", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+  const formatted = new Intl.NumberFormat("id-ID", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(num);
+  return `${formatted},-`;
 }

@@ -578,7 +578,7 @@ export default function ChartOfAccounts() {
           )}
 
           {/* Controls Section */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+          <div className="glass-panel p-6 rounded-2xl shadow-sm border border-slate-200/50 space-y-6">
             {/* Category Tabs */}
             <div className="flex flex-wrap gap-2">
               {categories.map(cat => (
@@ -587,7 +587,7 @@ export default function ChartOfAccounts() {
                   onClick={() => setActiveTab(cat)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                     activeTab === cat 
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' 
+                      ? 'bg-[#008b8b] text-white shadow-lg shadow-[#008b8b]/20' 
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
@@ -634,7 +634,7 @@ export default function ChartOfAccounts() {
                 </button>
                 <button 
                   onClick={() => setShowAddModal(true)}
-                  className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 signature-gradient text-white rounded-xl font-bold text-sm shadow-lg shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-[#008b8b] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#008b8b]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                   <span className="material-symbols-outlined text-lg">add</span>
                   Add Account
@@ -692,7 +692,7 @@ export default function ChartOfAccounts() {
           </div>
 
           {/* Data Table */}
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="glass-panel rounded-2xl shadow-sm border border-slate-200/50 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -707,8 +707,8 @@ export default function ChartOfAccounts() {
                 </thead>
                 <tbody className="divide-y divide-slate-200">
                   {filteredData.map((acc) => (
-                    <tr key={acc.code} onClick={() => handleOpenEdit(acc)} className="hover:bg-blue-50/40 transition-colors group cursor-pointer" title="Klik untuk edit akun">
-                      <td className={`px-6 py-4 text-sm font-bold ${acc.level === 'Master' ? 'text-blue-600' : 'text-slate-500'}`}>
+                    <tr key={acc.code} onClick={() => handleOpenEdit(acc)} className="hover:bg-slate-50 transition-colors group cursor-pointer" title="Klik untuk edit akun">
+                      <td className={`px-6 py-4 text-sm font-bold ${acc.level === 'Master' || acc.level === 'Master Akun' ? 'text-slate-900' : 'text-slate-500'}`}>
                         {acc.code}
                       </td>
                       <td className={`px-6 py-4 ${getIndentClass(acc.level)}`}>

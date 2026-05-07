@@ -9,29 +9,21 @@ export type Permission =
   | "edit_financials"
   | "manage_users";
 
+const ALL_PERMISSIONS: Permission[] = [
+  "view_dashboard",
+  "view_reports",
+  "manage_setup",
+  "manage_coa",
+  "approve_transactions",
+  "edit_financials",
+  "manage_users"
+];
+
 const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
-  "Super Admin": [
-    "view_dashboard",
-    "view_reports",
-    "manage_setup",
-    "manage_coa",
-    "approve_transactions",
-    "edit_financials",
-    "manage_users"
-  ],
-  "Direksi": [
-    "view_dashboard",
-    "view_reports",
-    "manage_setup"
-  ],
-  "Manager": [
-    "view_dashboard",
-    "view_reports",
-    "approve_transactions"
-  ],
-  "Staff": [
-    "view_dashboard"
-  ]
+  "Super Admin": ALL_PERMISSIONS,
+  "Direksi": ALL_PERMISSIONS,
+  "Manager": ALL_PERMISSIONS,
+  "Staff": ALL_PERMISSIONS
 };
 
 export const hasPermission = (role: UserRole | undefined, permission: Permission): boolean => {
@@ -40,17 +32,5 @@ export const hasPermission = (role: UserRole | undefined, permission: Permission
 };
 
 export const canAccessModule = (role: UserRole | undefined, module: string): boolean => {
-  if (!role) return false;
-  if (role === "Super Admin") return true;
-
-  switch (module) {
-    case "coa":
-      return ["Super Admin", "Manager"].includes(role);
-    case "reports":
-      return ["Super Admin", "Direksi", "Manager"].includes(role);
-    case "setup":
-      return ["Super Admin", "Direksi"].includes(role);
-    default:
-      return true;
-  }
+  return true; // Everyone can access everything
 };
